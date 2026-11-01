@@ -1,0 +1,458 @@
+/* ---------- Odelia portfolio 2026 ---------- */
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Pinyon+Script&display=swap");
+
+:root {
+  --bg: #f3f3ee;
+  --bg-home: #e8e8e3;
+  --ink: #111111;
+  --blue: #1a1aff;
+  --grey: #d9d9d9;
+  --pad-x: 6vw;
+  --font-main: "Helvetica Neue", "Inter Tight", Helvetica, Arial, sans-serif;
+  --font-script: "Pinyon Script", "Snell Roundhand", "Apple Chancery", cursive;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body { height: 100%; overflow: hidden; }
+
+body {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-main);
+  letter-spacing: -0.05em;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ---------- Star (blue asterisk) ---------- */
+.star {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='%231a1aff' stroke-width='13' stroke-linecap='round'%3E%3Cpath d='M50 6V94M12 28L88 72M12 72L88 28'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.star--corner {
+  position: fixed;
+  right: 6vw;
+  bottom: 6vh;
+  z-index: 6;
+  cursor: pointer;
+  width: 4.2vw;
+  height: 4.2vw;
+  animation: spin 14s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- Header ---------- */
+.site-header {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4.6vw var(--pad-x) 0;
+  font-size: 1.6vw;
+  z-index: 5;
+}
+
+.logo { display: inline-flex; align-items: center; gap: 0.7em; }
+.logo .star { width: 0.85em; height: 0.85em; }
+
+.site-nav { display: flex; gap: 3.2vw; padding-right: 3.5vw; }
+.site-nav a { position: relative; }
+.site-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -0.1em;
+  width: 100%; height: 0.07em;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.site-nav a:hover::after,
+.site-nav a[aria-current="page"]::after { transform: scaleX(1); }
+
+/* ---------- Views (single-page switching) ---------- */
+.view { display: none; }
+.view.active { display: block; animation: fade-in 0.45s ease; }
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+body { transition: background 0.4s ease; }
+
+/* ---------- Inner pages ---------- */
+.page {
+  height: 100vh;
+  height: 100dvh;
+  padding: 11vw var(--pad-x) 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.page h1 {
+  font-size: 5.6vw;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.065em;
+}
+
+.dot { color: var(--blue); }
+
+.page .subtitle {
+  display: block;
+  margin-top: 0.5vw;
+  font-size: 1.15vw;
+  letter-spacing: -0.04em;
+}
+
+.work-grid {
+  margin: 4.6vw 5vw 0 6vw;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.6vw;
+}
+
+/* ---------- Grid items & preview fix ---------- */
+.work-item {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: var(--bg); /* ללא רקע אפור */
+  overflow: hidden;
+  display: block;
+}
+
+.work-item img,
+.work-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+/* התאמה לקטגוריית Graphic Design בלבד כדי שיוצגו בשלמותן בלי להיחתך ובלי אפור */
+#graphic-design .work-item {
+  overflow: visible;
+}
+
+#graphic-design .work-item img {
+  object-fit: contain;
+  background: var(--bg);
+}
+
+/* אפקט גדילה חלק בריחוף לכל התמונות והסרטונים באתר */
+.work-item:hover img,
+.work-item:hover video {
+  transform: scale(1.05);
+}
+
+/* project name on the cover tile */
+.work-title {
+  position: absolute;
+  left: 0.8vw;
+  bottom: 0.8vw;
+  padding: 0.15em 0.55em 0.2em;
+  background: var(--bg);
+  font-size: 1.3vw;
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 1.25;
+}
+
+/* ---------- Project page (image slider) ---------- */
+.view.project.active {
+  display: grid;
+  grid-template-columns: 24vw 1fr;
+  column-gap: 3vw;
+  padding-bottom: 6vh;
+  padding-right: 12vw;
+}
+
+.project-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 0;
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 1.6vw;
+  font-size: 1.15vw;
+  letter-spacing: -0.04em;
+}
+.back:hover { text-decoration: underline; }
+
+.project-text {
+  margin-top: 2.4vw;
+  max-width: 22vw;
+  font-size: 1.1vw;
+  line-height: 1.3;
+  letter-spacing: -0.03em;
+}
+
+.slider {
+  position: relative;
+  min-height: 0;
+  height: 100%;
+  cursor: pointer;
+  user-select: none;
+}
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: left top;
+  display: none;
+}
+.slide.active { display: block; animation: fade-in 0.35s ease; }
+
+.slider-controls {
+  display: flex;
+  align-items: center;
+  gap: 1.4vw;
+  font-size: 1.15vw;
+}
+.slider-btn {
+  font: inherit;
+  font-size: 1.6vw;
+  line-height: 1;
+  color: var(--ink);
+  background: none;
+  border: 0.12vw solid var(--ink);
+  width: 3.2vw;
+  height: 3.2vw;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.slider-btn:hover { background: var(--ink); color: var(--bg); }
+.slider-count { letter-spacing: -0.03em; min-width: 3.5em; text-align: center; }
+
+/* About */
+.about-text {
+  margin-top: 3vw;
+  max-width: 58vw;
+  font-size: 3.3vw;
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.06em;
+}
+.about-text .about-name {
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: 1.5em;
+  line-height: 0.7;
+  letter-spacing: 0;
+}
+.about-text .about-cta { color: var(--blue); }
+
+.contact-links {
+  margin-top: 5vw;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1vw;
+  font-size: 2vw;
+  font-weight: 500;
+  letter-spacing: -0.05em;
+}
+.contact-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  border-bottom: 0.12vw solid var(--ink);
+  transition: color .2s, border-color .2s;
+}
+.contact-links a::after { content: "\2197"; font-size: 0.8em; }
+.contact-links a:hover { color: var(--blue); border-color: var(--blue); }
+
+/* ---------- Home ---------- */
+body[data-view="home"] { background: var(--bg-home); }
+
+body[data-view="home"]::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.25 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.hero {
+  position: relative;
+  height: 100vh;
+  height: 100dvh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.tag {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  padding: 0.18em 0.55em 0.22em 0.4em;
+  border: 0.14vw solid var(--ink);
+  font-size: 2.8vw;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.065em;
+  white-space: nowrap;
+  z-index: 3;
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+}
+.tag .star { width: 0.5em; height: 0.5em; }
+.tag:hover { transform: translateY(-4px) rotate(-1.5deg); background: var(--ink); color: var(--bg-home); }
+
+.tag--graphic { left: 56%; top: 29%; }
+.tag--motion  { left: 24.2%; top: 36%; }
+.tag--art     { left: 52.3%; top: 47%; font-size: 2.8vw; }
+.tag--brand   { left: 31.7%; top: 55.5%; }
+
+.portrait {
+  position: absolute;
+  left: 61.8%;
+  top: 41%;
+  width: 22.4%;
+  aspect-ratio: 0.77 / 1;
+  transform: rotate(4deg);
+  pointer-events: none;
+  z-index: 1;
+  background: #8f8f8f;
+  overflow: hidden;
+}
+.portrait img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: grayscale(1);
+  display: block;
+}
+
+.intro {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  left: 6%;
+  bottom: 6.5%;
+}
+.intro .hi  { font-size: 3.4vw; font-weight: 500; line-height: 1; display: block; }
+.intro .name {
+  display: block;
+  margin: -0.4vw 0 -1.3vw 3.6vw;
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: 9.5vw;
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+.intro .role-wrap { display: flex; align-items: flex-end; gap: 0.6vw; }
+.intro .a { font-size: 3.4vw; font-weight: 500; align-self: flex-start; margin-top: 0.4vw; }
+.intro .role { font-size: 7.4vw; font-weight: 500; line-height: 1; letter-spacing: -0.075em; }
+
+/* ---------- Mobile ---------- */
+@media (max-width: 760px) {
+  .site-header { font-size: 4vw; padding-top: 6vw; }
+  .site-nav { gap: 5vw; padding-right: 0; }
+
+  .page { padding: 28vw var(--pad-x) 0; }
+  .page h1 { font-size: 14vw; }
+  .page .subtitle { font-size: 3.6vw; }
+  .about-text { max-width: 100%; font-size: 8vw; margin-top: 8vw; }
+  .contact-links { gap: 3vw; margin-top: 10vw; font-size: 5.4vw; }
+  .contact-links a { border-bottom-width: 1.5px; }
+  .work-grid { grid-template-columns: repeat(2, 1fr); gap: 3vw; margin: 10vw 0 0; }
+  .star--corner { width: 12vw; height: 12vw; }
+  .view.project.active { display: flex; flex-direction: column; padding-right: var(--pad-x); padding-bottom: 5vh; gap: 4vw; }
+  .project-info { flex-direction: column; gap: 4vw; }
+  .back { font-size: 3.6vw; margin-bottom: 3vw; }
+  .project-text { font-size: 3.4vw; max-width: 100%; margin-top: 3vw; }
+  .work-title { font-size: 3.4vw; left: 2vw; bottom: 2vw; }
+  .slider { flex: 1; height: auto; }
+  .slide { object-position: center; }
+  .slider-controls { font-size: 3.6vw; gap: 4vw; }
+  .slider-btn { font-size: 5vw; width: 10vw; height: 10vw; border-width: 1.5px; }
+
+  .tag { font-size: 6vw; border-width: 1.5px; }
+  .tag--graphic { left: 38%; top: 17%; }
+  .tag--motion  { left: 8%;  top: 25%; }
+  .tag--art     { left: 62%; top: 33%; font-size: 6vw; }
+  .tag--brand   { left: 14%; top: 41%; }
+  .portrait { left: 40%; top: 50%; width: 52%; }
+  .intro { bottom: 5%; }
+  .intro .hi, .intro .a { font-size: 6vw; }
+  .intro .name { font-size: 20vw; margin-left: 7vw; margin-bottom: -3vw; }
+  .intro .role { font-size: 13vw; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .star--corner { animation: none; }
+  * { transition: none !important; }
+}
+
+/* ---------- Motion Design grid: allow scrolling when there are many videos ---------- */
+#motion-design {
+  overflow-y: auto;
+  padding-bottom: 12vw;
+}
+
+/* Motion projects: fix video player size and remove black letterboxing */
+.view.project[id^="motion-"] .slider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.view.project[id^="motion-"] video.slide {
+  position: relative;
+  inset: auto;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  background: transparent;
+}
+
+/* ---------- Web Design additions ---------- */
+.tag--web { left: 8%; top: 24%; }
+
+.live-link {
+  display: inline-block;
+  margin-top: 1.6vw;
+  font-size: 1.15vw;
+  letter-spacing: -0.04em;
+  border-bottom: 1px solid var(--ink);
+}
+.live-link:hover { color: var(--blue); border-color: var(--blue); }
+
+@media (max-width: 760px) {
+  .tag--web { left: 6%; top: 10.5%; font-size: 6vw; }
+  .live-link { font-size: 3.6vw; margin-top: 4vw; }
+}
+/* ---------- Motion Design: the preview squares grow slightly on hover ---------- */
+#motion-design .work-item {
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+#motion-design .work-item:hover,
+#motion-design .work-item:focus-visible {
+  transform: scale(1.06);
+  z-index: 2;
+}
+/* the whole square grows, so no extra zoom inside it */
+#motion-design .work-item:hover video {
+  transform: none;
+}
