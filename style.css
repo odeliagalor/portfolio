@@ -458,34 +458,24 @@ body[data-view="home"]::before {
 }
 
 /* ---------- Mobile fixes (phones) ---------- */
+/* same collage as the desktop version, scaled to a phone.
+   --pt is where the photo starts; the categories are placed around it. */
 @media (max-width: 760px) {
-  /* home: categories flow like a tag cloud, photo below them, text at the bottom */
-  .view.hero.active {
-    display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    align-items: flex-start;
-    gap: 3vw;
-    padding: 31vw 6vw 0;
-  }
-  .tag {
-    position: static;
-    font-size: 5.2vw;
-    padding: 0.18em 0.55em 0.22em 0.4em;
-  }
-  .tag--web     { order: 1; }
-  .tag--graphic { order: 2; }
-  .tag--motion  { order: 3; margin-left: 5vw; }
-  .tag--art     { order: 4; font-size: 5.2vw; }
-  .tag--brand   { order: 5; margin-left: 12vw; }
+  .hero { --pt: max(calc(100dvh - 129vw), 60vw); }
+
+  .tag { font-size: 5vw; }
+  .tag--web     { left: 6vw;  top: calc(var(--pt) - 34vw); }
+  .tag--graphic { left: 42vw; top: calc(var(--pt) - 23vw); }
+  .tag--motion  { left: 7vw;  top: calc(var(--pt) - 11vw); }
+  .tag--art     { left: 27vw; top: calc(var(--pt) + 4vw);  font-size: 5vw; }
+  .tag--brand   { left: 13vw; top: calc(var(--pt) + 19vw); }
 
   .portrait {
     left: auto;
-    right: 6vw;
-    top: calc(50vh - 22vw);
-    top: calc(50dvh - 22vw);
+    right: 5vw;
+    top: var(--pt);
     bottom: auto;
-    width: 48vw;
+    width: 54vw;
   }
 
   .intro { left: 6vw; bottom: 8vw; }
